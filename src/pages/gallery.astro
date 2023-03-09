@@ -1,0 +1,24 @@
+---
+import Page from "../layouts/Page.astro";
+import { gallery } from "../data";
+---
+
+<Page bg="bg-red-300" title="Gallery - snailypo">
+	<h1 class="lowercase text-3xl">Gallery</h1>
+	<class
+	<ul class="flex flex-wrap justify-center gap-4">
+		{
+			gallery.map(({ name, src, width }) => (
+				<li class="flex flex-col items-center justify-center ">
+					<img
+						src={src}
+						alt={name}
+						class="max-w-xs shadow-md shadow-black/25"
+						style={`width: ${width*50}px`}
+					/>
+					<p class="text-center">{name}</p>
+				</li>
+			))
+		}
+	</ul>
+</Page>

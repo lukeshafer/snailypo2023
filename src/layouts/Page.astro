@@ -1,0 +1,25 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import PageNav from "../components/PageNav";
+
+interface Props {
+	bg: string;
+	title: string;
+}
+
+const { bg, title } = Astro.props;
+---
+
+<BaseLayout title={title} bg={bg}>
+	<header
+		class="bg-purple-50 flex flex-wrap justify-center place-items-center gap-4 p-4 w-full">
+		<a href="/">
+			<h2 class="flex-[0] lowercase text-5xl text-indigo-500">Snaily<span class="text-red-400">Po</span></h2>
+		</a>
+		<PageNav client:load />
+	</header>
+	<main
+		class={`min-w-[100vw] min-h-[100vh] flex flex-col justify-start gap-20 items-center p-4`}>
+		<slot />
+	</main>
+</BaseLayout>
