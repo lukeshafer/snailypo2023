@@ -4,13 +4,25 @@ import { createSignal, For, onMount, Show, type JSX } from "solid-js";
 import { Portal } from "solid-js/web";
 
 const [bubbleContainer, setBubbleContainer] = createSignal<HTMLDivElement>();
-const [wrapper, setWrapper] = createSignal<HTMLDivElement>();
-const [height, setHeight] = createSignal(0);
-export const headerHeight = height;
 
 export default function Header(props: { pages: typeof pages }) {
+	const [wrapper, setWrapper] = createSignal<HTMLDivElement>();
+
 	onMount(() => {
-		setHeight(wrapper()!.clientHeight);
+		const observer = new MutationObserver((e) => {
+			e.forEach((mutation) => {
+				const el = mutation.target as HTMLElement;
+				console.log(el.className);
+			});
+		});
+
+		// observe class changes
+		observer.observe(wrapper()!, {
+			attributes: true,
+			attributeFilter: ["class"],
+		});
+
+		wrapper();
 	});
 
 	return (
@@ -70,7 +82,10 @@ function NavLink(props: Link) {
 		e.preventDefault();
 
 		const a = bg.animate(
-			[{ transform: "scale(1)" }, { transform: "scale(50)" }],
+			[
+				{ transform: "scale(1)", easing: "cubic-bezier(0.5, 1, 0.89, 1)" },
+				{ transform: "scale(200)" },
+			],
 			{ duration: 300 }
 		);
 		a.finished.then(() => e.retry(true)).catch(() => e.retry(true));
@@ -93,8 +108,8 @@ function NavLink(props: Link) {
 					style={{
 						top: `${position()?.top ?? 0}px`,
 						left: `${position()?.left ?? 0}px`,
-						width: `${position()?.width ?? 0}px`,
-						height: `${position()?.height ?? 0}px`,
+						width: `1vmax`,
+						height: `1vmax`,
 					}}
 				/>
 			</Portal>

@@ -4,9 +4,9 @@ import {
 	Routes,
 	useLocation,
 } from "@solidjs/router";
-import { createEffect, For, Show, type JSX } from "solid-js";
+import { For, Show, type JSX } from "solid-js";
 import { z } from "astro/zod";
-import Header, { headerHeight } from "@/components/Header";
+import Header from "@/components/Header";
 
 // PAGE IMPORTS
 import Index from ".";
@@ -61,6 +61,14 @@ export default function Router(props: { ssrRoute: string }) {
 	return (
 		<SolidRouter url={props.ssrRoute}>
 			<Transition
+				// @ts-expect-error - solid-transition-group types are wrong
+				onBeforeEnter={(el: HTMLElement) =>
+					(el.style.transform = "translateY(-100%)")
+				}
+				// @ts-expect-error - solid-transition-group types are wrong
+				onAfterEnter={(el: HTMLElement) =>
+					(el.style.transform = "translateY(0)")
+				}
 				onEnter={(el, done) => {
 					el.animate(
 						[
@@ -98,7 +106,9 @@ export default function Router(props: { ssrRoute: string }) {
 						.finished.then(done)
 						.catch(done);
 				}}>
-				{useLocation().pathname !== "/" && <Header pages={pages} />}
+				<Show when={useLocation().pathname !== "/"}>
+					<Header pages={pages} />
+				</Show>
 			</Transition>
 
 			<Routes>

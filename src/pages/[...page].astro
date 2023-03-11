@@ -30,5 +30,5 @@ const { bg_class } = Astro.props;
 ---
 
 <BaseLayout title={Astro.params.page ?? "snailypo"} bg_class={bg_class}>
-	<Router client:load ssrRoute={Astro.url.pathname} />
+	<Router client:idle ssrRoute={Astro.url.pathname} />
 </BaseLayout>
