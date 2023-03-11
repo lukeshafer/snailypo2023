@@ -40,7 +40,7 @@ export const gallery = [
 		src: "/gallery/yarn.jpg",
 		width: 5,
 	},
-]satisfies GalleryPiece[];
+] satisfies GalleryPiece[];
 
 export interface Zine {
 	name: string;
@@ -53,7 +53,7 @@ export const zines = [
 	{
 		name: "Body Affirmations",
 		src: "/zines/body-affirmations.jpg",
-		startsIn: 8,
+		startsIn: 5,
 		reversed: true,
 	},
 	{
@@ -66,4 +66,4 @@ export const zines = [
 		src: "/zines/best-and-worst-harry-styles.jpg",
 		startsIn: 2,
 	},
-]satisfies Zine[];
+] satisfies Zine[];

@@ -1,15 +1,16 @@
 ---
 import "@fontsource/sniglet";
+import "@/style.css"
 
 interface Props {
-	bg: string;
 	title: string;
+	bg_class: string;
 }
 
-const { bg, title } = Astro.props;
+const { title, bg_class } = Astro.props;
 ---
 
-<html lang="en" class={bg}>
+<html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -17,7 +18,7 @@ const { bg, title } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body>
+	<body class={ bg_class }>
 		<slot />
 	</body>
 </html>

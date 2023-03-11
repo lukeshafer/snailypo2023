@@ -18,10 +18,10 @@ const POSITIONS = [
 	"33.333% 0%",
 	"66.666% 0%",
 	"100% 0%",
-	"0% 100%",
-	"33.333% 100%",
-	"66.666% 100%",
 	"100% 100%",
+	"66.666% 100%",
+	"33.333% 100%",
+	"0% 100%",
 ];
 
 function Zine(props: { zine: Zine }) {
@@ -48,8 +48,8 @@ function Zine(props: { zine: Zine }) {
 			class={`grid place-items-center gap-4 rounded-2xl bg-white py-8 px-12 w-[400px]`}>
 			<h2 class="text-2xl text-center font-bold">{props.zine.name}</h2>
 			<div class="flex gap-4">
-				<Button onClick={prev}>Prev</Button>
-				<Button onClick={next}>Next</Button>
+				<Button onClick={props.zine.reversed ? next : prev}>Prev</Button>
+				<Button onClick={props.zine.reversed ? prev : next}>Next</Button>
 			</div>
 			<div
 				class="flex flex-col items-center justify-center bg-center bg-no-repeat outline outline-2"

@@ -1,8 +1,39 @@
-import { createMemo, createSignal } from "solid-js";
+import { pages } from "./+Router";
+
+export const title = "SnailyPo";
+
+export default function Index() {
+	return (
+		<main
+			class={`min-w-[100vw] min-h-[100vh] flex flex-col justify-start gap-20 items-center p-10 bg-indigo-200`}>
+			<h1 class="flex-[0] lowercase text-7xl text-indigo-500 text-left w-full">
+				Snaily<span class="text-red-400">Po</span>
+			</h1>
+			<MainNav
+				links={pages.map(({ slug, meta }) => ({
+					name: meta.title,
+					size: meta.size,
+					bg: meta.bg_class,
+					href: slug,
+				}))}
+			/>
+		</main>
+	);
+}
+
+import { createMemo, createSignal, For } from "solid-js";
+import { A } from "@solidjs/router";
 
 const [hoveredLink, setHoveredLink] = createSignal<null | string>(null);
 
-export default function MainNav() {
+interface Link {
+	href: string;
+	name: string;
+	bg: string;
+	size: number;
+}
+
+function MainNav(props: { links: Link[] }) {
 	const GRID_SIZE = "10px";
 	return (
 		<div class="bg-purple-50 rounded-[50%] min-h-[45rem] w-[45rem] grid place-items-center shadow-[0_0_10px] shadow-black/10">
@@ -13,14 +44,7 @@ export default function MainNav() {
 					"grid-template-columns": `repeat(auto-fit, ${GRID_SIZE})`,
 					width: "min(100%, 100vw)",
 				}}>
-				<NavLink href="/zines" text="Zines" bg="bg-indigo-300" size={4} />
-				<NavLink href="/gallery" text="Gallery" bg="bg-red-300" size={5} />
-				<NavLink href="/contact" text="Contact" bg="bg-orange-300" size={2} />
-				<NavLink href="/about" text="About" bg="bg-fuchsia-300" size={4} />
-				{
-					//<NavLink href="/shop" text="Shop" bg="bg-emerald-200" size={3} />
-					//<NavLink href="/social" text="Social" bg="bg-amber-200" size={1} />
-				}
+				<For each={props.links}>{(link) => <NavLink {...link} />}</For>
 			</nav>
 		</div>
 	);
@@ -29,7 +53,7 @@ export default function MainNav() {
 function NavLink(props: {
 	bg: string;
 	href: string;
-	text: string;
+	name: string;
 	size: number;
 }) {
 	const size = () => 4 + (props.size ?? 1);
@@ -40,13 +64,13 @@ function NavLink(props: {
 	);
 
 	return (
-		<a
+		<A
 			href={props.href}
 			class="flex rounded-[50%] transition-all items-center justify-center lowercase text-2xl h-full w-full"
 			classList={{ [props.bg]: true }}
 			onMouseOver={() => {
 				setIsMouseOver(true);
-				setHoveredLink(props.text);
+				setHoveredLink(props.name);
 			}}
 			onMouseOut={() => {
 				setIsMouseOver(false);
@@ -60,7 +84,7 @@ function NavLink(props: {
 				"grid-column": `span ${size()}`,
 				scale: scale(),
 			}}>
-			{props.text}
-		</a>
+			{props.name}
+		</A>
 	);
 }
