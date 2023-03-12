@@ -1,0 +1,13 @@
+---
+import Page from "@/layouts/Page.astro";
+import Zines from "@/components/Zines";
+
+export const title = "Zines";
+export const size = 4;
+export const bg = "bg-indigo-300";
+---
+
+<Page bg={bg} title={title}>
+	<h1 class="lowercase text-3xl">Zines</h1>
+	<Zines client:load />
+</Page>

@@ -1,0 +1,99 @@
+---
+interface Props {
+	routes: {
+		name: string;
+		path: string;
+	}[];
+}
+
+const { routes } = Astro.props;
+---
+
+<script>
+	import Swup from "swup";
+	import SwupBodyClassPlugin from "@swup/body-class-plugin";
+	import SwupPreloadPlugin from "@swup/preload-plugin";
+	import SwupHeadPlugin from "@swup/head-plugin";
+	import SwupA11yPlugin from "@swup/a11y-plugin";
+	import SwupRouteNamePlugin from "@swup/route-name-plugin";
+
+	const routeString = document.getElementById("swup")?.dataset?.routes ?? "[]";
+	const routes = JSON.parse(routeString) as {
+		name: string;
+		path: string;
+	}[];
+
+	const swup = new Swup({
+		containers: ["#swup", "#swup-header"],
+		plugins: [
+			new SwupBodyClassPlugin(),
+			new SwupPreloadPlugin(),
+			new SwupHeadPlugin(),
+			new SwupA11yPlugin(),
+			new SwupRouteNamePlugin({
+				routes: routes,
+			}),
+		],
+	});
+
+	swup.on("clickLink", (e) => {
+		const { pathname } = window.location;
+		document.querySelectorAll(".is-active").forEach((el) => {
+			el.classList.remove("is-active");
+		});
+		const route = document.querySelector(`[href="${pathname}"]`);
+		if (route) {
+			console.log("f")
+			route.classList.add("is-active")
+		}
+	});
+</script>
+
+<div id="swup" class="transition-fade" data-routes={JSON.stringify(routes)}>
+	<slot />
+</div>
+
+<style is:global>
+	.transition-fade {
+		transition: 0.3s;
+		opacity: 1;
+	}
+
+	html.is-rendering .transition-fade {
+		opacity: 0;
+	}
+
+	#grow-transition-gallery,
+	#grow-transition-zines,
+	#grow-transition-about,
+	#grow-transition-contact {
+		transition: 0.4s;
+		transform: scale(1);
+	}group-[.on-route-contact]:text-3xl
+
+	html.to-route-gallery.is-leaving #grow-transition-gallery,
+	html.to-route-zines.is-leaving #grow-transition-zines,
+	html.to-route-about.is-leaving #grow-transition-about,
+	html.to-route-contact.is-leaving #grow-transition-contact {
+		transform: scale(250);
+	}
+
+	html.to-route-index .grow-transition,
+	html.from-route-index .grow-transition {
+		display: none;
+	}
+
+	.transition-slide {
+		transition: 0.3s;
+		transform: translateY(0);
+	}
+
+	html.to-route-index .transition-slide,
+	html.from-route-index .transition-slide {
+		transform: translateY(-100%);
+	}
+
+	a.is-active {
+		color: blue !important;
+	}
+</style>

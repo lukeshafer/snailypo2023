@@ -1,25 +1,52 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import PageNav from "../components/PageNav";
+import Swup from "@/components/Swup.astro";
+import { getPages, getRoutes, getNameFromTitle, type Page } from "@/utils";
 
-interface Props {
-	bg: string;
-	title: string;
-}
+type Props = Pick<Page, "bg" | "title">;
 
-const { bg, title } = Astro.props;
+const pages = await getPages();
+const routes = await getRoutes();
 ---
 
-<BaseLayout title={title} bg={bg}>
-	<header
-		class="bg-purple-50 flex flex-wrap justify-center place-items-center gap-4 p-4 w-full">
-		<a href="/">
-			<h2 class="flex-[0] lowercase text-5xl text-indigo-500">Snaily<span class="text-red-400">Po</span></h2>
-		</a>
-		<PageNav client:load />
-	</header>
-	<main
-		class={`min-w-[100vw] min-h-[100vh] flex flex-col justify-start gap-20 items-center p-4`}>
-		<slot />
-	</main>
+<BaseLayout {...Astro.props}>
+	<div id="swup-header" class="z-10 relative">
+		<header
+			class="bg-purple-50 flex flex-wrap justify-center place-items-center gap-4 p-4 w-full fixed top-0 z-30 transition-slide">
+			<a href="/">
+				<h2 class="flex-[0] lowercase text-5xl text-indigo-500">
+					Snaily<span class="text-red-400">Po</span>
+				</h2>
+			</a>
+			<nav
+				class="flex flex-wrap place-content-center place-items-center gap-4 flex-1 w-full transition-all grid-flow-dense">
+				{
+					pages.map((page) => (
+						<a
+							href={page.href}
+							class={`flex p-3 transition-all items-center justify-center lowercase text-2xl h-full hover:scale-110 hover:mx-1 rounded-xl w-min ${
+								page.bg
+							} ${page.title === Astro.props.title ? "is-active" : ""}`}>
+							{page.title}
+						</a>
+					))
+				}
+			</nav>
+		</header>
+	</div>
+	<Swup routes={routes}>
+		<main
+			class={`min-w-[100vw] min-h-[100vh] flex flex-col justify-start gap-20 items-center p-4 pt-28`}>
+			<slot />
+		</main>
+		{
+			pages.map((page) => (
+				<div
+					id={`grow-transition-${page.title.toLowerCase()}`}
+					class={`absolute top-0 left-1/2 w-[1vmax] h-[1vmax] grow-transition ${page.bg} rounded-[50%]`}
+					aria-hidden="true"
+				/>
+			))
+		}
+	</Swup>
 </BaseLayout>
