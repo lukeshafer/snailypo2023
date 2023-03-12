@@ -5,8 +5,10 @@ export const title = "SnailyPo";
 export default function Index() {
 	return (
 		<main
-			class={`min-w-[100vw] min-h-[100vh] flex flex-col justify-start gap-20 items-center p-10 bg-indigo-200`}>
-			<h1 class="flex-[0] lowercase text-7xl text-indigo-500 text-left w-full">
+			class={`min-w-[100vw] min-h-[100vh] flex flex-col justify-start gap-20 items-center p-10 bg-indigo-200 bg-gradient-to-b from-indigo-200 to-violet-200`}>
+			<h1
+				class="flex-[0] lowercase text-7xl text-indigo-500 text-left w-full"
+				style={{ "text-shadow": "0 4px 8px rgb(0 0 0 / .15)" }}>
 				Snaily<span class="text-red-400">Po</span>
 			</h1>
 			<MainNav
