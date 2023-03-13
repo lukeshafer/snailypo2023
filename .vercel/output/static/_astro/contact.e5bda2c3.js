@@ -1,1 +1,0 @@
-import{p as t,v as e}from"./web.1bc56a2b.js";const a=e('<h1 class="lowercase text-3xl">Contact</h1>'),s={title:"Contact",size:2,bg_class:"bg-orange-300"};function n(){return t(a)}export{n as default,s as meta};
