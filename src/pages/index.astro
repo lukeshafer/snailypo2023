@@ -11,7 +11,6 @@ const routes = await getRoutes();
 
 <BaseLayout
 	title="snailypo"
-	name="index"
 	bg="bg-gradient-to-b from-violet-200 to-violet-300">
 	<div id="swup-header" class="transition-slide"><!-- --></div>
 	<Swup routes={routes}>
@@ -38,15 +37,23 @@ const routes = await getRoutes();
 					}}>
 					{
 						[...pages].map((page) => (
-							<a
-								href={page.href}
-								class={`flex rounded-[50%] transition-all items-center justify-center lowercase text-2xl h-full w-full ${page.bg} hover:scale-110`}
-								style={{
-									"grid-row": `span ${page.size + 5}`,
-									"grid-column": `span ${page.size + 5}`,
-								}}>
-								{page.title}
-							</a>
+							<>
+								<a
+									href={page.href}
+									data-bg={page.bg}
+									class={`flex rounded-[50%] transition-all items-center justify-center lowercase text-2xl h-full w-full ${page.bg} hover:scale-110`}
+									style={{
+										"grid-row": `span ${page.size + 5}`,
+										"grid-column": `span ${page.size + 5}`,
+									}}>
+									{page.title}
+								</a>
+								{/*<div*/
+								/*id={`grow-transition-${page.title.toLowerCase()}`}*/
+								/*class={`absolute top-0 left-1/2 w-[1vmax] h-[1vmax] grow-transition ${page.bg} rounded-[50%]`}*/
+								/*aria-hidden="true"*/
+								/*/>*/}
+							</>
 						))
 					}
 				</nav>

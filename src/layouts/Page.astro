@@ -24,7 +24,8 @@ const routes = await getRoutes();
 					pages.map((page) => (
 						<a
 							href={page.href}
-							class={`flex p-3 transition-all items-center justify-center lowercase text-2xl h-full hover:scale-110 hover:mx-1 rounded-xl w-min ${
+							data-bg={page.bg}
+							class={`flex p-3 transition-all items-center justify-center lowercase text-2xl h-full hover:scale-110 hover:mx-1 rounded-xl w-min shadow shadow-black/10 ${
 								page.bg
 							} ${page.title === Astro.props.title ? "is-active" : ""}`}>
 							{page.title}
@@ -39,14 +40,5 @@ const routes = await getRoutes();
 			class={`min-w-[100vw] min-h-[100vh] flex flex-col justify-start gap-20 items-center p-4 pt-28`}>
 			<slot />
 		</main>
-		{
-			pages.map((page) => (
-				<div
-					id={`grow-transition-${page.title.toLowerCase()}`}
-					class={`absolute top-0 left-1/2 w-[1vmax] h-[1vmax] grow-transition ${page.bg} rounded-[50%]`}
-					aria-hidden="true"
-				/>
-			))
-		}
 	</Swup>
 </BaseLayout>

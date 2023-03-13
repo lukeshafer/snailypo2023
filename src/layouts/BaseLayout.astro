@@ -9,12 +9,14 @@ type Props = Pick<Page, "title" | "bg">;
 const { props } = Astro
 ---
 
-<html lang="en">
+<html lang="en" class="bg-purple-50">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<!-- theme -->
+		<meta name="theme-color" content="#FAF5FF" />
 		<title>{props.title}</title>
 	</head>
 	<body class={`group ${props.bg} on-route-${getNameFromTitle(props.title)}`}>

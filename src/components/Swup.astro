@@ -23,6 +23,14 @@ const { routes } = Astro.props;
 		path: string;
 	}[];
 
+	const tmpl = document.createElement("template");
+	tmpl.innerHTML = `
+		<div
+			class="absolute top-0 left-1/2 w-[1vmax] h-[1vmax] grow-transition rounded-[50%] absolute transition-all duration-500"
+			aria-hidden="true"
+		/>
+	`;
+
 	const swup = new Swup({
 		containers: ["#swup", "#swup-header"],
 		plugins: [
@@ -37,15 +45,47 @@ const { routes } = Astro.props;
 	});
 
 	swup.on("clickLink", (e) => {
-		const { pathname } = window.location;
+		const link = e.target as HTMLAnchorElement;
+		if (!link?.pathname) return;
+		const pathname = link.pathname.split("/")[1] ?? "index";
+		if (pathname === window.location.pathname.split("/")[1]) {
+			return;
+		}
+
+		const clickEl = tmpl.content.firstElementChild!.cloneNode(
+			true
+		) as HTMLDivElement;
+		const bg = link.dataset.bg;
+		if (bg) {
+			clickEl.classList.add(bg);
+			clickEl.style.setProperty(
+				"top",
+				`${link.offsetTop + link.offsetHeight / 2}px`
+			);
+			clickEl.style.setProperty(
+				"left",
+				`${link.offsetLeft + link.offsetWidth / 2}px`
+			);
+			document.body.appendChild(clickEl);
+			queueMicrotask(() => {
+				clickEl.style.setProperty("transform", "scale(250)");
+			});
+		}
+
 		document.querySelectorAll(".is-active").forEach((el) => {
 			el.classList.remove("is-active");
 		});
 		const route = document.querySelector(`[href="${pathname}"]`);
 		if (route) {
-			console.log("f")
-			route.classList.add("is-active")
+			route.classList.add("is-active");
 		}
+
+		swup.on("animationInStart", () => {
+			if (clickEl) {
+				clickEl.remove();
+			}
+			swup.off("pageLoaded");
+		});
 	});
 </script>
 
@@ -63,26 +103,6 @@ const { routes } = Astro.props;
 		opacity: 0;
 	}
 
-	#grow-transition-gallery,
-	#grow-transition-zines,
-	#grow-transition-about,
-	#grow-transition-contact {
-		transition: 0.4s;
-		transform: scale(1);
-	}group-[.on-route-contact]:text-3xl
-
-	html.to-route-gallery.is-leaving #grow-transition-gallery,
-	html.to-route-zines.is-leaving #grow-transition-zines,
-	html.to-route-about.is-leaving #grow-transition-about,
-	html.to-route-contact.is-leaving #grow-transition-contact {
-		transform: scale(250);
-	}
-
-	html.to-route-index .grow-transition,
-	html.from-route-index .grow-transition {
-		display: none;
-	}
-
 	.transition-slide {
 		transition: 0.3s;
 		transform: translateY(0);
@@ -94,6 +114,6 @@ const { routes } = Astro.props;
 	}
 
 	a.is-active {
-		color: blue !important;
+		font-weight: 700;
 	}
 </style>
