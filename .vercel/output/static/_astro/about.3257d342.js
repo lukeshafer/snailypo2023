@@ -1,0 +1,1 @@
+import{p as t,v as e}from"./web.1bc56a2b.js";const s=e('<h1 class="lowercase text-3xl">About</h1>'),o={title:"About",size:4,bg_class:"bg-fuchsia-300"};function l(){return t(s)}export{l as default,o as meta};

@@ -3,30 +3,7 @@ import type { GetStaticPaths } from "astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Router, { pages } from "./+Router";
 
-interface Props {
-	bg_class: string;
-}
-
-export const getStaticPaths: GetStaticPaths = () => [
-	...pages.map(({ slug, meta }) => ({
-		params: {
-			page: slug,
-		},
-		props: {
-			bg_class: meta.bg_class,
-		},
-	})),
-	{
-		params: {
-			page: undefined,
-		},
-		props: {
-			bg_class: "",
-		},
-	},
-];
-
-const { bg_class } = Astro.props;
+const bg_class = pages.find((page) => page.slug === Astro.url.pathname)?.meta.bg_class ?? "bg-white";
 ---
 
 <BaseLayout title={Astro.params.page ?? "snailypo"} bg_class={bg_class}>
