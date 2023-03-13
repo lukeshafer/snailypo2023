@@ -1,5 +1,3 @@
-import { gallery } from "@/data";
-import { For } from "solid-js";
 import type { PageHead } from "@/types";
 
 export const meta: PageHead = {
