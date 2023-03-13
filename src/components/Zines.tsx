@@ -1,30 +1,22 @@
 import { createMemo, createSignal, For } from "solid-js";
 import { zines, type Zine } from "../data";
 
-export default function Zines() {
-	return (
-		<div class="flex flex-wrap items-center justify-center gap-12">
-			<For each={zines}>{(zine) => <Zine zine={zine} />}</For>
-		</div>
-	);
-}
+export default function Zine(props: { zine: Zine }) {
+	const RATIO = 8.5 / 5.5;
+	const WIDTH = 300;
+	const HEIGHT = WIDTH * RATIO;
 
-const RATIO = 8.5 / 5.5;
-const WIDTH = 300;
-const HEIGHT = WIDTH * RATIO;
+	const POSITIONS = [
+		"0% 0%",
+		"33.333% 0%",
+		"66.666% 0%",
+		"100% 0%",
+		"100% 100%",
+		"66.666% 100%",
+		"33.333% 100%",
+		"0% 100%",
+	];
 
-const POSITIONS = [
-	"0% 0%",
-	"33.333% 0%",
-	"66.666% 0%",
-	"100% 0%",
-	"100% 100%",
-	"66.666% 100%",
-	"33.333% 100%",
-	"0% 100%",
-];
-
-function Zine(props: { zine: Zine }) {
 	// eslint-disable-next-line solid/reactivity
 	const [position, setPosition] = createSignal(props.zine.startsIn - 1);
 

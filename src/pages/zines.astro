@@ -1,6 +1,8 @@
 ---
+import { zines } from "@/data";
 import Page from "@/layouts/Page.astro";
-import Zines from "@/components/Zines";
+import SnailyZine from "@/components/SnailyZine.astro";
+import Zine from "@/components/Zines"
 
 export const title = "Zines";
 export const size = 4;
@@ -9,5 +11,7 @@ export const bg = "bg-indigo-300";
 
 <Page bg={bg} title={title}>
 	<h1 class="lowercase text-3xl">Zines</h1>
-	<Zines client:load />
+		<div class="flex flex-wrap items-center justify-center gap-12">
+			{zines.map( (zine) => <Zine client:visible zine={zine} /> )}
+		</div>
 </Page>
