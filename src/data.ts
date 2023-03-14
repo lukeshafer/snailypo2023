@@ -1,3 +1,49 @@
+interface Link {
+	name: string;
+	href: string;
+	title: string;
+	bg: string;
+	size: number;
+}
+
+export const links: Record<string, Link> = {
+	gallery: {
+		name: "gallery",
+		href: "/gallery",
+		title: "Gallery",
+		bg: "bg-red-300",
+		size: 5,
+	},
+	zines: {
+		name: "zines",
+		href: "/zines",
+		title: "Zines",
+		bg: "bg-indigo-300",
+		size: 4,
+	},
+	about: {
+		name: "about",
+		href: "/about",
+		title: "About",
+		bg: "bg-fuchsia-300",
+		size: 3,
+	},
+	contact: {
+		name: "contact",
+		href: "/contact",
+		title: "Contact",
+		bg: "bg-orange-300",
+		size: 3,
+	},
+};
+
+export const linkList = [
+	links.gallery,
+	links.zines,
+	links.about,
+	links.contact,
+];
+
 interface GalleryPiece {
 	name: string;
 	src: string;
@@ -40,7 +86,7 @@ export const gallery = [
 		src: "/gallery/yarn.jpg",
 		width: 5,
 	},
-] satisfies GalleryPiece[];
+]satisfies GalleryPiece[];
 
 export interface Zine {
 	name: string;
@@ -66,4 +112,4 @@ export const zines = [
 		src: "/zines/best-and-worst-harry-styles.jpg",
 		startsIn: 2,
 	},
-] satisfies Zine[];
+]satisfies Zine[];

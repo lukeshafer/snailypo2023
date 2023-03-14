@@ -1,8 +1,0 @@
----
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Router from "./+Router";
----
-
-<BaseLayout title={Astro.params.page ?? "snailypo"} bg_class="">
-	<Router client:idle ssrRoute={Astro.url.pathname} />
-</BaseLayout>

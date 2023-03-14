@@ -1,5 +1,5 @@
 import { createMemo, createSignal, For } from "solid-js";
-import { zines, type Zine } from "../data";
+import { zines, type Zine } from "~/data";
 
 export default function Zines() {
 	return (
@@ -24,7 +24,7 @@ const POSITIONS = [
 	"0% 100%",
 ];
 
-function Zine(props: { zine: Zine }) {
+export function Zine(props: { zine: Zine }) {
 	// eslint-disable-next-line solid/reactivity
 	const [position, setPosition] = createSignal(props.zine.startsIn - 1);
 

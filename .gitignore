@@ -19,3 +19,20 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+.solid
+.output
+.vercel
+.netlify
+netlify
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+*.launch
+.settings/
+
+# System Files
+.DS_Store
+Thumbs.db

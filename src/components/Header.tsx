@@ -1,12 +1,22 @@
-import type { pages } from "@/pages/+Router";
-import { A, useBeforeLeave, useLocation } from "@solidjs/router";
-import { createSignal, For, onMount, Show, type JSX } from "solid-js";
+import { A, useBeforeLeave } from "@solidjs/router";
+import { createSignal, For, onMount, Show } from "solid-js";
 import { Portal } from "solid-js/web";
+import { useLocation } from "solid-start";
+import { Transition } from "solid-transition-group";
 
 const [bubbleContainer, setBubbleContainer] = createSignal<HTMLDivElement>();
 
-export default function Header(props: { pages: typeof pages }) {
+interface Link {
+	href: string;
+	title: string;
+	bg: string;
+}
+
+const easeOutQuad = "cubic-bezier(0.5, 1, 0.89, 1)";
+
+export default function Header(props: { links: Link[] }) {
 	const [wrapper, setWrapper] = createSignal<HTMLDivElement>();
+	const location = useLocation();
 
 	onMount(() => {
 		const observer = new MutationObserver((e) => {
@@ -26,7 +36,13 @@ export default function Header(props: { pages: typeof pages }) {
 	});
 
 	return (
-		<div class="fixed top-0 w-full z-20" ref={setWrapper}>
+		<div
+			class="fixed top-0 w-full z-20 transition-all ease-[cubic-bezier(0.5,1,0.89,1)]"
+			ref={setWrapper}
+			style={{
+				transform:
+					location.pathname === "/" ? "translateY(-100%)" : "translateY(0%)",
+			}}>
 			<div ref={setBubbleContainer} />
 			<header class="z-10 bg-purple-50 flex-wrap justify-center place-items-center gap-4 flex p-4 relative">
 				<A href="/">
@@ -34,35 +50,12 @@ export default function Header(props: { pages: typeof pages }) {
 						Snaily<span class="text-red-400">Po</span>
 					</h2>
 				</A>
-				<Nav>
-					<For
-						each={props.pages.map(({ slug, meta }) => ({
-							name: meta.title,
-							size: meta.size,
-							bg: meta.bg_class,
-							href: slug,
-						}))}>
-						{(link) => <NavLink {...link} />}
-					</For>
-				</Nav>
+				<nav class="flex flex-wrap place-content-center place-items-center gap-4 flex-1 w-full transition-all grid-flow-dense">
+					<For each={props.links}>{(link) => <NavLink {...link} />}</For>
+				</nav>
 			</header>
 		</div>
 	);
-}
-
-function Nav(props: { children?: JSX.Element }) {
-	return (
-		<nav class="flex flex-wrap place-content-center place-items-center gap-4 flex-1 w-full transition-all grid-flow-dense">
-			{props.children}
-		</nav>
-	);
-}
-
-interface Link {
-	href: string;
-	name: string;
-	bg: string;
-	size: number;
 }
 
 function NavLink(props: Link) {
@@ -98,7 +91,7 @@ function NavLink(props: Link) {
 				ref={setLinkRef}
 				class="flex p-3 transition-all items-center justify-center lowercase text-2xl h-full hover:scale-110 hover:mx-1 rounded-xl w-min"
 				classList={{ [props.bg]: true }}>
-				{props.name}
+				{props.title}
 			</A>
 			<Portal mount={bubbleContainer()}>
 				<div
