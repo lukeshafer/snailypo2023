@@ -15,46 +15,69 @@ interface Link {
 const easeOutQuad = "cubic-bezier(0.5, 1, 0.89, 1)";
 
 export default function Header(props: { links: Link[] }) {
-	const [wrapper, setWrapper] = createSignal<HTMLDivElement>();
 	const location = useLocation();
 
-	onMount(() => {
-		const observer = new MutationObserver((e) => {
-			e.forEach((mutation) => {
-				const el = mutation.target as HTMLElement;
-				console.log(el.className);
-			});
-		});
-
-		// observe class changes
-		observer.observe(wrapper()!, {
-			attributes: true,
-			attributeFilter: ["class"],
-		});
-
-		wrapper();
-	});
-
 	return (
-		<div
-			class="fixed top-0 w-full z-20 transition-all ease-[cubic-bezier(0.5,1,0.89,1)]"
-			ref={setWrapper}
-			style={{
-				transform:
-					location.pathname === "/" ? "translateY(-100%)" : "translateY(0%)",
+		<Transition
+			// @ts-expect-error - solid-transition-group types are wrong
+			onBeforeEnter={(el: HTMLElement) =>
+				(el.style.transform = "translateY(-100%)")
+			}
+			// @ts-expect-error - solid-transition-group types are wrong
+			onAfterEnter={(el: HTMLElement) => (el.style.transform = "translateY(0)")}
+			onEnter={(el, done) => {
+				el.animate(
+					[
+						{
+							transform: "translateY(-100%)",
+							easing: easeOutQuad,
+						},
+						{
+							transform: "translateY(0)",
+						},
+					],
+					{
+						duration: 400,
+					}
+				)
+					.finished.then(done)
+					.catch(done);
+			}}
+			// @ts-expect-error - solid-transition-group types are wrong
+			onExit={(el: HTMLElement, done) => {
+				el.style.position = "absolute";
+				el.style.width = "100%";
+				el.animate(
+					[
+						{
+							transform: "translateY(0)",
+							easing: easeOutQuad,
+						},
+						{ transform: "translateY(-100%)" },
+					],
+					{
+						duration: 200,
+					}
+				)
+					.finished.then(done)
+					.catch(done);
 			}}>
-			<div ref={setBubbleContainer} />
-			<header class="z-10 bg-purple-50 flex-wrap justify-center place-items-center gap-4 flex p-4 relative">
-				<A href="/">
-					<h2 class="lowercase text-5xl text-indigo-500">
-						Snaily<span class="text-red-400">Po</span>
-					</h2>
-				</A>
-				<nav class="flex flex-wrap place-content-center place-items-center gap-4 flex-1 w-full transition-all grid-flow-dense">
-					<For each={props.links}>{(link) => <NavLink {...link} />}</For>
-				</nav>
-			</header>
-		</div>
+			<Show when={location.pathname !== "/"}>
+				<div class="fixed top-0 w-full z-20 transition-all ease-[cubic-bezier(0.5,1,0.89,1)]">
+					<div ref={setBubbleContainer} />
+					<header class="z-10 bg-purple-50 flex-wrap justify-center place-items-center gap-4 flex p-4 relative">
+						<A href="/">
+							<h2 class="lowercase text-5xl text-indigo-500">
+								Snaily<span class="text-red-400">Po</span>
+							</h2>
+						</A>
+						<nav class="flex flex-wrap place-content-center place-items-center gap-4 flex-1 w-full transition-all grid-flow-dense">
+							<For each={props.links}>{(link) => <NavLink {...link} />}</For>
+						</nav>
+					</header>
+				</div>
+			</Show>
+		</Transition>
 	);
 }
 
