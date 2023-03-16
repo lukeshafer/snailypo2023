@@ -6,7 +6,7 @@ interface Link {
 	size: number;
 }
 
-export const links: Record<string, Link> = {
+export const links = {
 	gallery: {
 		name: "gallery",
 		href: "/gallery",
@@ -35,7 +35,7 @@ export const links: Record<string, Link> = {
 		bg: "bg-orange-300",
 		size: 3,
 	},
-};
+} satisfies Record<string, Link>;
 
 export const linkList = [
 	links.gallery,
@@ -86,7 +86,7 @@ export const gallery = [
 		src: "/gallery/yarn.jpg",
 		width: 5,
 	},
-]satisfies GalleryPiece[];
+] satisfies GalleryPiece[];
 
 export interface Zine {
 	name: string;
@@ -112,4 +112,4 @@ export const zines = [
 		src: "/zines/best-and-worst-harry-styles.jpg",
 		startsIn: 2,
 	},
-]satisfies Zine[];
+] satisfies Zine[];

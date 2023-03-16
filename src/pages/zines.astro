@@ -1,0 +1,22 @@
+---
+import Page from "../layouts/Page.astro";
+import { links, zines } from "../data";
+import Zine from "../components/Zine";
+
+const { title, bg } = links.zines;
+---
+
+<Page title={title} bg={bg}>
+	<h1 class="lowercase text-3xl">Zines</h1>
+	<ul class="flex flex-wrap justify-center gap-12">
+		{
+			zines.map((zine) => (
+				<li
+					aria-label={zine.name}
+					class="grid place-items-center gap-4 rounded-2xl bg-white py-8 px-12 w-[400px]">
+					<Zine client:idle zine={zine} />
+				</li>
+			))
+		}
+	</ul>
+</Page>

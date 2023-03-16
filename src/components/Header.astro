@@ -1,0 +1,42 @@
+---
+interface Props {
+	links: {
+		href: string;
+		title: string;
+		bg: string;
+	}[];
+}
+
+const { props, url: { searchParams } } = Astro
+
+const from = searchParams.get("from");
+---
+
+<div
+	class="fixed top-0 w-full z-20 transition-all ease-[cubic-bezier(0.5,1,0.89,1)]"
+	class:list={{ slideIn: from === "home" }}>
+	<header
+		class="z-10 bg-purple-50 flex-wrap justify-center place-items-center gap-4 flex p-4 relative">
+		<a href="/">
+			<h2 class="lowercase text-5xl text-indigo-500">
+				Snaily<span class="text-red-400">Po</span>
+			</h2>
+		</a>
+		<nav
+			class="flex flex-wrap place-content-center place-items-center gap-4 flex-1 w-full transition-all grid-flow-dense">
+			{
+				props.links.map((link) => (
+					<a
+						href={link.href}
+						id={`nav-link-${link.title}`}
+						class={`flex p-3 transition-all items-center justify-center 
+							lowercase text-2xl h-full hover:scale-110 hover:mx-1 rounded-xl 
+							w-min ${link.bg} 
+							${Astro.url.pathname === link.href ? "font-bold" : ""}`}>
+						{link.title}
+					</a>
+				))
+			}
+		</nav>
+	</header>
+</div>

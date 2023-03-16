@@ -1,0 +1,18 @@
+---
+import Base, { type Props } from "./Base.astro";
+import Header from "../components/Header.astro";
+import { linkList } from "../data";
+
+const { props } = Astro;
+---
+
+<Base {...props}>
+	<Header links={linkList} />
+	<main
+		style={{
+			animation: "fadein 0.4s ease-in-out forwards",
+		}}
+		class="min-w-[100vw] min-h-[100vh] flex flex-col justify-start gap-20 items-center p-4 transition-opacity pt-28">
+		<slot />
+	</main>
+</Base>

@@ -1,13 +1,5 @@
-import { createMemo, createSignal, For } from "solid-js";
-import { zines, type Zine } from "~/data";
-
-export default function Zines() {
-	return (
-		<div class="flex flex-wrap items-center justify-center gap-12">
-			<For each={zines}>{(zine) => <Zine zine={zine} />}</For>
-		</div>
-	);
-}
+import { createMemo, createSignal } from "solid-js";
+import type { Zine } from "../data";
 
 const RATIO = 8.5 / 5.5;
 const WIDTH = 300;
@@ -24,7 +16,7 @@ const POSITIONS = [
 	"0% 100%",
 ];
 
-export function Zine(props: { zine: Zine }) {
+export default function Zine(props: { zine: Zine }) {
 	// eslint-disable-next-line solid/reactivity
 	const [position, setPosition] = createSignal(props.zine.startsIn - 1);
 
@@ -43,9 +35,7 @@ export function Zine(props: { zine: Zine }) {
 	}
 
 	return (
-		<section
-			aria-label={props.zine.name}
-			class={`grid place-items-center gap-4 rounded-2xl bg-white py-8 px-12 w-[400px]`}>
+		<>
 			<h2 class="text-2xl text-center font-bold">{props.zine.name}</h2>
 			<div class="flex gap-4">
 				<Button onClick={props.zine.reversed ? next : prev}>Prev</Button>
@@ -62,7 +52,7 @@ export function Zine(props: { zine: Zine }) {
 					transform: isRotated() ? "rotate(0.5turn)" : "rotate(0turn)",
 				}}
 			/>
-		</section>
+		</>
 	);
 }
 

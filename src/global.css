@@ -14,3 +14,16 @@
 nav .active {
 	font-weight: bold;
 }
+
+@keyframes slidein {
+	from {
+		transform: translateY(-100%);
+	}
+	to {
+		transform: translateY(0);
+	}
+}
+
+.slideIn {
+	animation: slidein 0.5s forwards;
+}

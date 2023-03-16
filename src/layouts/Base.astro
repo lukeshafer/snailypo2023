@@ -1,0 +1,23 @@
+---
+import "@fontsource/sniglet";
+import "../global.css";
+
+export interface Props {
+	title: string;
+	bg: string;
+}
+
+const { props } = Astro;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{props.title}</title>
+	</head>
+	<body class={`${props.bg}`}>
+		<slot />
+	</body>
+</html>
