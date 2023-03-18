@@ -1,7 +1,7 @@
 ---
 import Base, { type Props } from "./Base.astro";
 import Header from "../components/Header.astro";
-import { linkList } from "../data";
+import { linkList } from "../config";
 
 const { props } = Astro;
 ---
@@ -12,7 +12,7 @@ const { props } = Astro;
 		style={{
 			animation: "fadein 0.4s ease-in-out forwards",
 		}}
-		class="min-w-[100vw] min-h-[100vh] flex flex-col justify-start gap-20 items-center p-4 transition-opacity pt-28">
+		class="min-w-[100vw] min-h-[100vh] flex flex-col justify-start gap-20 items-center p-8 transition-opacity">
 		<slot />
 	</main>
 </Base>

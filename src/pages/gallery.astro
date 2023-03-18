@@ -1,25 +1,45 @@
 ---
+import { gallery } from "./api/gallery.json"
 import Page from "../layouts/Page.astro";
-import { links, gallery } from "../data";
+import { links } from "../config";
 
 const { title, bg } = links.gallery;
 ---
 
 <Page title={title} bg={bg}>
 	<h1 class="lowercase text-3xl">Gallery</h1>
-	<ul class="flex flex-wrap justify-center gap-4">
+	<ul class="grid grid-flow-dense grid-cols-[repeat(auto-fit,minmax(1rem,1fr))]  
+		justify-center w-full">
 		{
-			gallery.map(({ name, src, width }) => (
-				<li class="flex flex-col items-center justify-center ">
+			gallery.map(({ name, src, width, height }) => (
+				<li 
+					class="flex flex-col items-center justify-center" 
+					style={{
+						"grid-row": `span ${height * 2 + 1}`,
+						"grid-column": `span ${width * 2 + 1}`,
+					}}>
 					<img
 						src={src}
 						alt={name}
-						class="max-w-xs shadow-md shadow-black/25"
-						style={{ width: `${width * 50}px` }}
+						class={ `drop-shadow-md shadow-black/25` }
+						style={{ 
+							width: `${width * 2}rem`,
+							height: `${height * 2}rem`,
+						}}
 					/>
-					<p class="text-center">{name}</p>
 				</li>
 			))
 		}
 	</ul>
 </Page>
+
+<style> 
+	li {
+		grid-column: span var(--col-span);
+		grid-row: span var(--row-span);
+	}
+
+	ul {
+		grid-auto-rows: 1rem;
+	}
+</style>

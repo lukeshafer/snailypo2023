@@ -1,6 +1,6 @@
 ---
 import Page from "../layouts/Page.astro";
-import { links, zines } from "../data";
+import { links, zines } from "../config";
 import Zine from "../components/Zine";
 
 const { title, bg } = links.zines;
@@ -13,7 +13,7 @@ const { title, bg } = links.zines;
 			zines.map((zine) => (
 				<li
 					aria-label={zine.name}
-					class="grid place-items-center gap-4 rounded-2xl bg-white py-8 px-12 w-[400px]">
+					class="grid place-items-center gap-4 rounded-2xl bg-white py-8 px-12">
 					<Zine client:idle zine={zine} />
 				</li>
 			))
