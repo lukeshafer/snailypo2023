@@ -7,7 +7,7 @@ const { title, bg } = links.gallery;
 ---
 
 <Page title={title} bg={bg}>
-	<h1 class="lowercase text-3xl">Gallery</h1>
+	<h1 class="lowercase text-3xl visually-hidden">Gallery</h1>
 	<ul class="grid grid-flow-dense grid-cols-[repeat(auto-fit,minmax(1rem,1fr))]  
 		justify-center w-full">
 		{
@@ -15,17 +15,13 @@ const { title, bg } = links.gallery;
 				<li 
 					class="flex flex-col items-center justify-center" 
 					style={{
-						"grid-row": `span ${height * 2 + 1}`,
-						"grid-column": `span ${width * 2 + 1}`,
+						"grid-row": `span ${height * 2}`,
+						"grid-column": `span ${width * 2}`,
 					}}>
 					<img
 						src={src}
 						alt={name}
-						class={ `drop-shadow-md shadow-black/25` }
-						style={{ 
-							width: `${width * 2}rem`,
-							height: `${height * 2}rem`,
-						}}
+						class={ `drop-shadow-md shadow-black/25 p-2` }
 					/>
 				</li>
 			))

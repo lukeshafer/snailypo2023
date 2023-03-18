@@ -7,13 +7,13 @@ const { title, bg } = links.zines;
 ---
 
 <Page title={title} bg={bg}>
-	<h1 class="lowercase text-3xl">Zines</h1>
-	<ul class="flex flex-wrap justify-center gap-12">
+	<h1 class="visually-hidden">Zines</h1>
+	<ul class="flex flex-wrap justify-center gap-4">
 		{
 			zines.map((zine) => (
 				<li
 					aria-label={zine.name}
-					class="grid place-items-center gap-4 rounded-2xl bg-white py-8 px-12">
+					class="grid place-items-center gap-4 rounded-xl bg-white py-4 px-4">
 					<Zine client:idle zine={zine} />
 				</li>
 			))

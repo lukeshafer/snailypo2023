@@ -7,14 +7,15 @@ interface Props {
 	}[];
 }
 
-const { props, url: { searchParams } } = Astro
+const { props, request } = Astro
 
-const from = searchParams.get("from");
+const referer = request.headers.get("referer")
+const fromIndex = referer ? new URL(referer).pathname === "/" : false
 ---
 
 <div
 	class="sticky top-0 w-full z-20 transition-all ease-[cubic-bezier(0.5,1,0.89,1)]"
-	class:list={{ slideIn: from === "home" }}>
+	class:list={{ slideIn: fromIndex }}>
 	<header
 		class="z-10 bg-purple-50 flex-wrap justify-center place-items-center gap-4 flex p-4 relative">
 		<a href="/">
